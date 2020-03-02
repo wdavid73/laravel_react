@@ -11,7 +11,13 @@ export const getMonitorings = () => {
 }
 
 export const getMonitors = () => {
-
+    return axios
+    .get('api/monitores', {
+        headers : {'Content-Type' : 'application/json'}
+    })
+    .then(res => {
+        return res.data
+    })
 }
 
 export const addMonitoring = (asignature , classroom , date , monitor_id ) => {

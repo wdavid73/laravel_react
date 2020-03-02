@@ -1,5 +1,5 @@
 import React from "react"
-import {getMonitorings, addMonitoring, UpdateMonitoring, DeleteMonitoring} from "./functions/MonitoringFunction"
+import {getMonitorings, addMonitoring, UpdateMonitoring, DeleteMonitoring ,getMonitors} from "./functions/MonitoringFunction"
 
 export default class Monitoring extends React.Component {
     constructor() {
@@ -12,7 +12,8 @@ export default class Monitoring extends React.Component {
             monitor_id: '',
             editDisable: false,
             state: 1,
-            monitoring: []
+            monitoring: [],
+            monitors : []
         }
         this.onSubmit = this.onSubmit.bind(this)
         this.onChange = this.onChange.bind(this)
@@ -20,6 +21,18 @@ export default class Monitoring extends React.Component {
 
     componentDidMount() {
         this.getAll()
+        this.getMonitor()
+    }
+
+    getMonitor = () => {
+        getMonitors().then(data => {
+            this.setState({
+                monitors : [...data]
+            })
+        },
+        () => {
+            console.log(this.state.monitors)
+        })
     }
 
     onSubmit = e => {
@@ -208,7 +221,18 @@ export default class Monitoring extends React.Component {
                                         <td className="text-left">{monitoring.asignature}</td>
                                         <td className="text-left">{monitoring.classroom}</td>
                                         <td className="text-left">{monitoring.date}</td>
-                                        <td className="text-left">{monitoring.monitor_id}</td>
+                                        <td className="text-left">
+                                            {this.state.monitors.map((monitor , index) => (
+                                                <p>{monitoring.monitor_id == monitor.id ?
+                                                    (<p className="text-center">
+                                                        {monitor.first_name} {monitor.second_name} {monitor.first_lastname} {monitor.second_lastname} <br />
+                                                        Programa Academico : {monitor.academic_program} - Semestre : {monitor.semester} <br />
+                                                        Contacto : {monitor.email} - {monitor.cellphone}
+                                                    </p>)
+                                                    :
+                                                ('') }</p>
+                                            ))}
+                                        </td>
                                         <td className="text-right">
                                             <button
                                                 href=""
