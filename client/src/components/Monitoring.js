@@ -11,6 +11,7 @@ export default class Monitoring extends React.Component {
             date: '',
             monitor_id: '',
             editDisable: false,
+            selectedOption: '',
             state: 1,
             monitoring: [],
             monitors : []
@@ -23,6 +24,8 @@ export default class Monitoring extends React.Component {
         this.getAll()
         this.getMonitor()
     }
+
+
 
     getMonitor = () => {
         getMonitors().then(data => {
@@ -37,6 +40,10 @@ export default class Monitoring extends React.Component {
 
     onSubmit = e => {
         e.preventDefault()
+        console.log(this.state.asignature)
+        console.log(this.state.classroom)
+        console.log(this.state.date)
+        console.log(this.state.monitor_id)
         addMonitoring(
             this.state.asignature,
             this.state.classroom,
@@ -55,6 +62,7 @@ export default class Monitoring extends React.Component {
     }
 
     onChange = e => {
+        console.log(e.target.name)
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -132,7 +140,10 @@ export default class Monitoring extends React.Component {
         })
         this.setState({ monitoring: [...data] })
 
+
     }
+
+
 
     render(){
         return(
@@ -152,7 +163,7 @@ export default class Monitoring extends React.Component {
                                                         value={this.state.asignature || ''}
                                                         onChange={this.onChange.bind(this)}
                                                         placeholder="Ingrese la Asignatura"
-                                                        required/>
+                                                        />
                                             </div>
                                             <div className="col">
                                                 <label htmlFor="date_monitoring"> Fecha de Monitoria </label>
@@ -160,7 +171,7 @@ export default class Monitoring extends React.Component {
                                                         name="date"
                                                         value={this.state.date || ''}
                                                         onChange={this.onChange.bind(this)}
-                                                        required/>
+                                                        />
                                             </div>
                                         </div>
                                         <div className="row">
@@ -171,16 +182,22 @@ export default class Monitoring extends React.Component {
                                                         value={this.state.classroom || ''}
                                                         onChange={this.onChange.bind(this)}
                                                         placeholder="Ingrese el Salon o Aula"
-                                                        required/>
+                                                        />
                                             </div>
                                             <div className="col">
                                                 <label htmlFor="monitor_id"> Monitor </label>
-                                                <input  type="text" className="form-control" id="monitor_id"
-                                                        name = "monitor_id"
-                                                        value={this.state.monitor_id || ''}
-                                                        onChange={this.onChange.bind(this)}
-                                                        placeholder="monitor_id"
-                                                        required/>
+                                                <select name="monitor_id"
+                                                    onChange={this.onChange.bind(this)}
+                                                    className="form-control"
+                                                    value={this.state.monitor_id || ''}>
+                                                        <option> ---------- --------- </option>
+                                                        {this.state.monitors.map((monitor , index) => (
+                                                            <option key={index}
+                                                                    value={monitor.id}
+                                                                    >{monitor.first_name} {monitor.first_lastname} - Programa Academico : {monitor.academic_program}
+                                                            </option>
+                                                        ))}
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -223,12 +240,12 @@ export default class Monitoring extends React.Component {
                                         <td className="text-left">{monitoring.date}</td>
                                         <td className="text-left">
                                             {this.state.monitors.map((monitor , index) => (
-                                                <p>{monitoring.monitor_id == monitor.id ?
-                                                    (<p className="text-center">
+                                                <p key={index}>{monitoring.monitor_id === monitor.id ?
+                                                    (<span>
                                                         {monitor.first_name} {monitor.second_name} {monitor.first_lastname} {monitor.second_lastname} <br />
                                                         Programa Academico : {monitor.academic_program} - Semestre : {monitor.semester} <br />
                                                         Contacto : {monitor.email} - {monitor.cellphone}
-                                                    </p>)
+                                                    </span>)
                                                     :
                                                 ('') }</p>
                                             ))}

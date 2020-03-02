@@ -9,17 +9,17 @@ export default class Welcome extends React.Component {
 
             <Router>
                 <nav className=" navbar navbar-dark bg-dark sticky-top navbar-expand-lg">
-                    <a className="navbar-brand" href="#">Monitorias App</a>
+                    <span className="navbar-brand">Monitorias App</span>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarText">
                         <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
-                            <Link to="/monitores" className="nav-link">Monitores</Link>
+                            <Link to="/monitores" className="nav-link btn btn-outline-primary m-2">Monitores</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/monitorias" className="nav-link">Monitorias</Link>
+                            <Link to="/monitorias" className="nav-link btn btn-outline-success m-2">Monitorias</Link>
                         </li>
                         </ul>
 
